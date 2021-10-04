@@ -1,0 +1,7 @@
+name: jek_12
+type: module
+description: 'This module creates a page with a list of cats and a form where users can leave photos of their pets.'
+package: custom
+core: 8.x
+core_version_requirement: ^8 || ^9
+version: '1.0.0'

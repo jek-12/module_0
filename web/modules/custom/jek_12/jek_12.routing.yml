@@ -1,0 +1,7 @@
+jek_12.content:
+  path: '/jek-12/cats'
+  defaults:
+    _controller: '\Drupal\jek_12\Controller\SayHiController::cats'
+    _title: ''
+  requirements:
+    _permission: 'access content'
