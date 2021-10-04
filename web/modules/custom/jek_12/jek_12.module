@@ -9,7 +9,10 @@
   function jek_12_theme($existing, $type, $theme, $path): array {
     return [
       'test' => [
-        'variables' => ['hi_text' => NULL, 'date'],
+        'variables' => [
+          'hi_text' => NULL,
+          'date',
+        ],
       ],
     ];
   }

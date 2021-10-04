@@ -1,0 +1,6 @@
+custom_libs:
+  css:
+    base:
+      css/reset.css: {}
+    theme:
+      css/style.css: {}

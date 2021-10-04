@@ -12,12 +12,22 @@ class SayHiController extends ControllerBase {
   /**
    * Returns a render-able array for a test page.
    */
+
+  /**
+   * Attached css libraries.
+   */
   public function cats(): array {
-    $build['example'] = [
-      '#theme' => 'test',
-      '#hi_text' => t('“Hello! You can add here a photo of your cat.”'),
+    return [
+      [
+        '#theme' => 'test',
+        '#hi_text' => t('“Hello! You can add here a photo of your cat.”'),
+        '#attached' => [
+          'library' => [
+            'custom_libs/style.css',
+          ],
+        ],
+      ],
     ];
-    return $build;
   }
 
 }
