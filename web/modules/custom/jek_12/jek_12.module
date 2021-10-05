@@ -11,18 +11,8 @@
       'test' => [
         'variables' => [
           'hi_text' => NULL,
-          'date',
+          'form' => NULL,
         ],
       ],
     ];
   }
-
-  /**
-   * Implements template_preprocess_HOOK() for test.
-   */
-  function template_preprocess_test(&$variables): void {
-    $time = Drupal::time()->getCurrentTime();
-    $date_formatter = Drupal::service('date.formatter');
-    $variables['date'] = $date_formatter->format($time, 'short');
-  }
-

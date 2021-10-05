@@ -15,9 +15,17 @@ class FormJek12 extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state): array {
     $form['cats_name'] = [
-      '#type' => 'name',
-      '#title' => $this->t('‘Your cat’s name:’'),
+      '#type' => 'textfield',
+      '#title' => $this->t('Your cat’s name:'),
+      '#placeholder' => $this->t('lolik'),
+      '#description' => $this->t('Number of characters in the name: 2 - 36'),
+      '#required' => TRUE,
     ];
+    $form['submit'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('Add cat'),
+    ];
+
     return $form;
   }
 
@@ -32,7 +40,7 @@ class FormJek12 extends FormBase {
    * @inheritDoc
    */
   public function getFormId(): string {
-    return 'Form_jek_12';
+    return 'FormJek12';
   }
 
 }
