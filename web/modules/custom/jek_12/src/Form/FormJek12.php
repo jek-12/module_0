@@ -18,7 +18,7 @@ class FormJek12 extends FormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Your cat’s name:'),
       '#placeholder' => $this->t('lolik'),
-      '#description' => $this->t('Number of characters in the name: 2 - 36'),
+      '#description' => $this->t('Number of characters in the name: 2 - 32'),
       '#required' => TRUE,
     ];
     $form['submit'] = [
@@ -32,8 +32,19 @@ class FormJek12 extends FormBase {
   /**
    * {@inheritDoc}
    */
+  public function validateForm(array &$form, FormStateInterface $form_state) {
+    $charNameQuantity = strlen($form_state->getValue('cats_name'));
+    if ($charNameQuantity < 2 || $charNameQuantity > 32) {
+//      \Drupal::messenger()->addMessage('invalid');
+      $form_state->setErrorByName('cats_name', 'invalid');
+    }
+  }
+
+  /**
+   * {@inheritDoc}
+   */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    // @todo Implement submitForm() method.
+    \Drupal::messenger()->addMessage('valid');
   }
 
   /**
