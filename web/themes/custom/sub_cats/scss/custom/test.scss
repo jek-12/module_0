@@ -1,4 +1,27 @@
+html body {
+  background: #dfedf2;
+}
 .hi_text {
   font-size: 18px;
   color: deepskyblue;
+}
+.text-muted {
+  color: #53a9c6 !important;
+}
+#formjek12 {
+  label {
+    color: #104f64;
+    padding-bottom: 10px;
+  }
+}
+.site-footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+.form-control {
+  background-color: #e5edfb;
+}
+.form-control:focus {
+  background-color: #e0eaf4;
 }
