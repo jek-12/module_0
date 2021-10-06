@@ -3,14 +3,12 @@
  * Global utilities.
  *
  */
-(function($, Drupal) {
+(function ($, Drupal) {
 
   'use strict';
 
   Drupal.behaviors.sub_cats = {
-    attach: function(context, settings) {
-
-      // Custom code here
+    attach: function (context, settings) {
 
     }
   };

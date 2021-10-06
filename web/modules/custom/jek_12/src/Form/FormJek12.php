@@ -25,7 +25,6 @@ class FormJek12 extends FormBase {
       '#type' => 'submit',
       '#value' => $this->t('Add cat'),
     ];
-
     return $form;
   }
 
@@ -35,7 +34,6 @@ class FormJek12 extends FormBase {
   public function validateForm(array &$form, FormStateInterface $form_state) {
     $charNameQuantity = strlen($form_state->getValue('cats_name'));
     if ($charNameQuantity < 2 || $charNameQuantity > 32) {
-//      \Drupal::messenger()->addMessage('invalid');
       $form_state->setErrorByName('cats_name', 'invalid');
     }
   }
@@ -48,7 +46,7 @@ class FormJek12 extends FormBase {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   public function getFormId(): string {
     return 'FormJek12';
