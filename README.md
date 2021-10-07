@@ -1,3 +1,6 @@
+be sure to change the basic settings of the Appearance theme -> Settings -> sub-cats -> Components -> Messages -> Alerts classic
+
+
 // for  http://local.site/ 
 
 fin config set --global DOCKSAL_DNS_DOMAIN=site

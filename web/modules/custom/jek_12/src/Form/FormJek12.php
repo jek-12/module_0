@@ -4,6 +4,7 @@ namespace Drupal\jek_12\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Ajax\AjaxResponse;
 
 /**
  * Custom class Form_jek_12 extend FormBase.
@@ -14,6 +15,10 @@ class FormJek12 extends FormBase {
    * {@inheritDoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state): array {
+    $form = [
+      '#prefix'=> '<div id="formWrapper">',
+      '#suffix' => '</div>',
+    ];
     $form['cats_name'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Your cat’s name:'),
@@ -24,7 +29,19 @@ class FormJek12 extends FormBase {
     $form['submit'] = [
       '#type' => 'submit',
       '#value' => $this->t('Add cat'),
+      '#ajax' => [
+        'callback' => '::ajaxValidate',
+        'event' => 'click',
+        'wrapper' => 'formWrapper',
+      ],
     ];
+    return $form;
+  }
+
+  /**
+   * Return form with validation status (drupal message).
+   */
+  public function ajaxValidate(array &$form, FormStateInterface $form_state) {
     return $form;
   }
 
