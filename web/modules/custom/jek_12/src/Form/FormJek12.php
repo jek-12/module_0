@@ -36,7 +36,7 @@ class FormJek12 extends FormBase {
       '#description' => $this->t('The name can only contain Latin letters, an underscore, or a hyphen. Also be sure to use @'),
       '#required' => TRUE,
       '#ajax' => [
-        'callback' => '::ajaxValidateMail',
+        'callback' => '::customValidate',
         'event' => 'keyup',
         'wrapper' => 'formWrapper',
       ],
@@ -56,7 +56,7 @@ class FormJek12 extends FormBase {
   /**
    * Return form with validation status (drupal message).
    */
-  public function ajaxValidate(array &$form, FormStateInterface $form_state) {
+  public function ajaxValidate(array &$form) {
     return $form;
   }
 
@@ -65,18 +65,17 @@ class FormJek12 extends FormBase {
    * @return string
    * return value of $par with string type.
    */
-  protected function changeType ($par) {
+  protected function changeType ($par): string {
     if (!is_string($par)) {
       $par = strval($par);
     }
     return $par;
   }
   /**
-   * @param array $form
    * @param FormStateInterface $form_state
    * @param $field - the machine name of the field for which the error is set.
    */
-  protected function setWarnForField (array &$form, FormStateInterface $form_state, $field) {
+  protected function setWarnForField (FormStateInterface $form_state, $field) {
     $field = $this->changeType($field);
     $fieldValue = $form_state->getValue($field);
     $form_state->setErrorByName($field, t('Please enter correct @fieldName, because @fieldValue is incorrect, ', [
@@ -85,7 +84,7 @@ class FormJek12 extends FormBase {
     ]));
   }
 
-  public function unsetWarnForField (array &$form, FormStateInterface $form_state, $field) {
+  public function unsetWarnForField (FormStateInterface $form_state, $field) {
     $field = $this->changeType($field);
     $form_errors = $form_state->getErrors();
     $form_state->clearErrors();
@@ -93,31 +92,49 @@ class FormJek12 extends FormBase {
     foreach ($form_errors as $name => $error_message) {
       $form_state->setErrorByName($name, $error_message);
     }
-    \Drupal::messenger()->addMessage('Valid mail', 'status');// for each rewrite
+
   }
 
   /**
    * Ajax validation Cat's name.
    */
-  public function ajaxValidateCatName(array &$form, FormStateInterface $form_state) {
-      $charNameQuantity = strlen($form_state->getValue('cats_name'));
-      if ($charNameQuantity < 2 || $charNameQuantity > 32) {
-      \Drupal::messenger()->addMessage('Invalid cat`s name', 'error');
-      } else {
-        \Drupal::messenger()->addMessage('Valid cat`s name', 'status');
-      }
+  public function ajaxValidateCatName(array $form) {
+
 //    $form_state->setRebuild(true);
     return $form;
   }
-  public function ajaxValidateMail(array &$form, FormStateInterface $form_state) {
+
+
+  public function customValidate(array &$form, FormStateInterface $form_state, $validatefunc = 'ajax') {
     $char = strlen($form_state->getValue('cats_mail'));
-    if ($char < 10) {
-      \Drupal::messenger()->addMessage('Invalid mail', 'error');
-      $this->setWarnForField($form, $form_state, 'cats_mail');
-    } else {
-      $this->unsetWarnForField($form, $form_state, 'cats_mail');
-      \Drupal::messenger()->addMessage('Valid mail', 'status');
+    $charNameQuantity = strlen($form_state->getValue('cats_name'));
+    switch ($validatefunc) {
+      case 'ajax':
+        if ($char > 10) {
+          \Drupal::messenger()->addMessage('Valid mail', 'status');
+        } else {
+          \Drupal::messenger()->addMessage('Invalid mail', 'error');
+        }
+        if ($charNameQuantity < 2 || $charNameQuantity > 32) {
+          \Drupal::messenger()->addMessage('Invalid cat`s name', 'error');
+        } else {
+          \Drupal::messenger()->addMessage('Valid cat`s name', 'status');
+        }
+        break;
+      case 'form':
+        if ($char > 10) {
+          $this->unsetWarnForField($form_state, 'cats_mail');
+        } else {
+          $this->setWarnForField($form_state, 'cats_mail');
+        }
+        if ($charNameQuantity < 2 || $charNameQuantity > 32) {
+          $this->unsetWarnForField($form_state, 'cats_name');
+        } else {
+          $this->setWarnForField($form_state, 'cats_name');
+        }
+        break;
     }
+
 //    $form_state->setRebuild(true);
     return $form;
   }
@@ -133,15 +150,17 @@ class FormJek12 extends FormBase {
    * {@inheritDoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    $this->ajaxValidateCatName($form, $form_state);
-    $this->ajaxValidateMail($form, $form_state);
+    $this -> customValidate($form, $form_state, 'form');
+
+//    $this->ajaxValidateCatName($form, $form_state);
+//    $this->ajaxValidateMail($form, $form_state);
   }
 //на сабміт проходить але меседж на сабміті перекритий забінженим чи сабміт не відпрацьовує бо статус меседжа - ерорр
   /**
    * {@inheritDoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-//    \Drupal::messenger()->addMessage('Valid');
+    \Drupal::messenger()->addMessage('Valid submit');
   }
 
   /**
