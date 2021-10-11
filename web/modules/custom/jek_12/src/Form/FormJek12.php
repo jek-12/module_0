@@ -71,6 +71,14 @@ class FormJek12 extends FormBase {
     }
     return $par;
   }
+  protected function isEmpty(FormStateInterface $form_state, $field) {//empty phpmanual
+    $variable = TRUE;
+    $field = $this->changeType($field);
+    if (strlen($form_state->getValue($field)) !== 0) {
+      $variable = FALSE;
+    }
+    return $variable;
+  }
   /**
    * @param FormStateInterface $form_state
    * @param $field - the machine name of the field for which the error is set.
@@ -98,39 +106,58 @@ class FormJek12 extends FormBase {
   /**
    * Ajax validation Cat's name.
    */
-  public function ajaxValidateCatName(array $form) {
-
-//    $form_state->setRebuild(true);
+  public function ajaxValidateCatName(array $form, FormStateInterface $form_state) {
+    $this->customValidate($form, $form_state, 'cats_name','ajax');
+    return $form;
+  }
+  public function ajaxValidateMail(array $form, FormStateInterface $form_state) {
+    $this->customValidate($form, $form_state, 'cats_mail','ajax');
     return $form;
   }
 
-
-  public function customValidate(array &$form, FormStateInterface $form_state, $validatefunc = 'ajax') {
-    $char = strlen($form_state->getValue('cats_mail'));
+  public function customValidate(array &$form, FormStateInterface $form_state, $whichForm, $validatefunc = 'ajax') {
+    $char = strlen($form_state->getValue('cats_mail'));//
     $charNameQuantity = strlen($form_state->getValue('cats_name'));
-    switch ($validatefunc) {
-      case 'ajax':
-        if ($char > 10) {
-          \Drupal::messenger()->addMessage('Valid mail', 'status');
-        } else {
-          \Drupal::messenger()->addMessage('Invalid mail', 'error');
-        }
-        if ($charNameQuantity < 2 || $charNameQuantity > 32) {
-          \Drupal::messenger()->addMessage('Invalid cat`s name', 'error');
-        } else {
-          \Drupal::messenger()->addMessage('Valid cat`s name', 'status');
+    switch ($whichForm) {
+      case 'cats_mail' :
+        switch ($validatefunc) {
+          case 'ajax':
+            if ($this->isEmpty($form_state, 'cats_mail')) {
+              if ($char > 10) {
+                \Drupal::messenger()->addMessage('Valid mail', 'status');
+              } else {
+                \Drupal::messenger()->addMessage('Invalid mail', 'error');
+              }
+            }
+            break;
+          case 'form':
+            if ($this->isEmpty($form_state, 'cats_mail')) {
+              $test = $this->isEmpty($form_state, 'cats_mail');
+              if ($char > 10) {
+                $this->unsetWarnForField($form_state, 'cats_mail');
+              } else {
+                $this->setWarnForField($form_state, 'cats_mail');
+              }
+            }
+            break;
         }
         break;
-      case 'form':
-        if ($char > 10) {
-          $this->unsetWarnForField($form_state, 'cats_mail');
-        } else {
-          $this->setWarnForField($form_state, 'cats_mail');
-        }
-        if ($charNameQuantity < 2 || $charNameQuantity > 32) {
-          $this->unsetWarnForField($form_state, 'cats_name');
-        } else {
-          $this->setWarnForField($form_state, 'cats_name');
+      case 'cats_name' :
+        switch ($validatefunc) {
+          case 'ajax':
+            if (($charNameQuantity < 2 || $charNameQuantity > 32) && $this->isEmpty($form_state, 'cats_mail')) {
+              \Drupal::messenger()->addMessage('Invalid cat`s name', 'error');
+            } else {
+              \Drupal::messenger()->addMessage('Valid cat`s name', 'status');
+            }
+            break;
+          case 'form':
+            if ($charNameQuantity < 2 || $charNameQuantity > 32) {
+              $this->unsetWarnForField($form_state, 'cats_name');
+            } else {
+              $this->setWarnForField($form_state, 'cats_name');
+            }
+            break;
         }
         break;
     }
@@ -150,7 +177,8 @@ class FormJek12 extends FormBase {
    * {@inheritDoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    $this -> customValidate($form, $form_state, 'form');
+    $this -> customValidate($form, $form_state, 'cats_mail','form');
+    $this -> customValidate($form, $form_state, 'cats_name','form');
 
 //    $this->ajaxValidateCatName($form, $form_state);
 //    $this->ajaxValidateMail($form, $form_state);
