@@ -4,6 +4,7 @@ namespace Drupal\jek_12\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Custom class Form_jek_12 extend FormBase.
@@ -11,11 +12,31 @@ use Drupal\Core\Form\FormStateInterface;
 class FormJek12 extends FormBase {
 
   /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container): FormJek12 {
+    $service = parent::create($container);
+    $service->messenger = $container->get('messenger');
+    return $service;
+  }
+
+  /**
    * {@inheritDoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state): array {
+    $validatorCatImg = [
+      'file_validate_extensions' => ['jpeg jpg png'],
+      'file_validate_size' => [2097152],
+    ];
+
     $form['#prefix'] = '<div id="formWrapper">';
     $form['#suffix'] = '</div>';
+    $form['cats_img'] = [
+      '#type' => 'managed_file',
+      '#title' => 'Your cat’s photo',
+      '#required' => TRUE,
+      '#upload_validators' => $validatorCatImg,
+    ];
     $form['cats_name'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Your cat’s name:'),
