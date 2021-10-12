@@ -5,12 +5,12 @@
  */
 (function ($, Drupal) {
 
-  'use strict';
+    'use strict';
 
-  Drupal.behaviors.sub_cats = {
-    attach: function (context, settings) {
+    Drupal.behaviors.sub_cats = {
+        attach: function (context, settings) {
 
-    }
-  };
+        }
+    };
 
 })(jQuery, Drupal);
