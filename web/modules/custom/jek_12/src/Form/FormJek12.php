@@ -24,7 +24,6 @@ class FormJek12 extends FormBase {
       '#required' => TRUE,
       '#ajax' => [
         'callback' => '::ajaxValidateCatName',
-    // 'method' => 'replaceWith',
         'event' => 'keyup',
         'wrapper' => 'formWrapper',
         'progress' => [
@@ -62,17 +61,19 @@ class FormJek12 extends FormBase {
   /**
    * Return form with validation status (drupal message).
    */
-  public function ajaxValidate(array &$form) {
+  public function ajaxValidate(array &$form): array {
     return $form;
   }
 
   /**
+   * Set warning for selected field name.
+   *
    * @param \Drupal\Core\Form\FormStateInterface $form_state
-   * @param $field
-   *   - the machine name of the field for which the error is set.
+   *   this is FormStateInterface.
+   * @param string $field
+   *   - The machine name of the field for which the error is set.
    */
-  protected function setWarnForField(FormStateInterface $form_state, $field) {
-    // $field = $this->changeType($field);
+  protected function setWarnForField(FormStateInterface $form_state, string $field): void {
     $fieldValue = $form_state->getValue($field);
     $form_state->setErrorByName($field, t('Please enter correct @fieldName, because @fieldValue is incorrect!', [
       '@fieldValue' => $fieldValue,
@@ -81,10 +82,14 @@ class FormJek12 extends FormBase {
   }
 
   /**
+   * Unset warning for selected field name.
    *
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   this is FormStateInterface.
+   * @param string $field
+   *   - The machine name of the field for which the error is unset.
    */
-  public function unsetWarnForField(FormStateInterface $form_state, $field) {
-    // $field = $this->changeType($field);
+  public function unsetWarnForField(FormStateInterface $form_state, string $field): void {
     $form_errors = $form_state->getErrors();
     $form_state->clearErrors();
     unset($form_errors[$field]);
@@ -96,24 +101,34 @@ class FormJek12 extends FormBase {
   /**
    * Ajax validation Cat's name.
    */
-  public function ajaxValidateCatName(array $form, FormStateInterface $form_state) {
+  public function ajaxValidateCatName(array $form, FormStateInterface $form_state): array {
     $this->customValidate($form, $form_state, 'cats_name', 'ajax');
     return $form;
   }
 
   /**
-   *
+   * Ajax validation Mail.
    */
-  public function ajaxValidateMail(array $form, FormStateInterface $form_state) {
+  public function ajaxValidateMail(array $form, FormStateInterface $form_state): array {
     $this->customValidate($form, $form_state, 'cats_mail', 'ajax');
     return $form;
   }
 
   /**
+   * Custom logic for different form fields.
    *
+   * @param array $form
+   *   - Form render array.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   this is FormStateInterface.
+   * @param string $whichForm
+   *   - Machine name of your field.
+   * @param string $validatefunc
+   *   - Where current function will be used, bind different message.
+   *   - Use 'ajax' in custom ajax callback.
+   *   - Use 'form' in validateForm.
    */
-  public function customValidate(array &$form, FormStateInterface $form_state, $whichForm, $validatefunc = 'ajax') {
-    $char = strlen($form_state->getValue('cats_mail'));
+  public function customValidate(array $form, FormStateInterface $form_state, string $whichForm, string $validatefunc = 'ajax'): array {
     $charNameQuantity = strlen($form_state->getValue('cats_name'));
     switch ($whichForm) {
       case 'cats_mail':
@@ -167,7 +182,7 @@ class FormJek12 extends FormBase {
   /**
    * {@inheritDoc}
    */
-  public function validateForm(array &$form, FormStateInterface $form_state) {
+  public function validateForm(array &$form, FormStateInterface $form_state): void {
     $this->customValidate($form, $form_state, 'cats_mail', 'form');
     $this->customValidate($form, $form_state, 'cats_name', 'form');
   }
@@ -175,7 +190,7 @@ class FormJek12 extends FormBase {
   /**
    * {@inheritDoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
+  public function submitForm(array &$form, FormStateInterface $form_state): void {
     \Drupal::messenger()->addMessage('Valid submit');
   }
 
