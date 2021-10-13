@@ -34,6 +34,7 @@ class FormJek12 extends FormBase {
     $form['cats_img'] = [
       '#type' => 'managed_file',
       '#title' => 'Your cat’s photo',
+      '#description' => $this->t('Only type of jpeg, jpg, png'),
       '#required' => TRUE,
       '#upload_validators' => $validatorCatImg,
     ];
