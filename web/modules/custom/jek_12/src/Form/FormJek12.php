@@ -35,6 +35,7 @@ class FormJek12 extends FormBase {
       '#type' => 'managed_file',
       '#title' => 'Your cat’s photo',
       '#description' => $this->t('Only type of jpeg, jpg, png'),
+      '#upload_location' => 'public://image',
       '#required' => TRUE,
       '#upload_validators' => $validatorCatImg,
     ];
@@ -111,7 +112,7 @@ class FormJek12 extends FormBase {
    * @param string $field
    *   - The machine name of the field for which the error is unset.
    */
-  public function unsetWarnForField(FormStateInterface $form_state, string $field): void {
+  protected function unsetWarnForField(FormStateInterface $form_state, string $field): void {
     $form_errors = $form_state->getErrors();
     $form_state->clearErrors();
     unset($form_errors[$field]);

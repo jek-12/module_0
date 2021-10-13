@@ -2,3 +2,9 @@ p {
 	margin: 0;
 	padding: 0;
 }
+form {
+  .placeholder {
+    background-color: unset;
+    opacity: 0.8;
+  }
+}

@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * @return array
+ * Implements hook_schema()
+ */
+
+function jek_12_schema() {
+  $schema['jek_12'] = [
+    'fields'=> [
+      'fid' => [
+        'type' => 'int',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'cats_name' => [
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'cats_mail' => [
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+    ],
+    'primary key' => [
+      'fid',
+    ],
+  ];
+  return $schema;
+}
