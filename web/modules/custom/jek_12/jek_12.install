@@ -26,6 +26,12 @@ function jek_12_schema() {
         'not null' => TRUE,
         'default' => '',
       ],
+      'created_time' => [
+        'type' => 'int',
+        'length' => 30,
+        'not null' => TRUE,
+        'default' => 1,
+      ],
     ],
     'primary key' => [
       'fid',

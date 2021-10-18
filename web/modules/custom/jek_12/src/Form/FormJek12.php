@@ -215,6 +215,11 @@ class FormJek12 extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state): void {
     \Drupal::messenger()->addMessage('Valid submit');
+    $requestTime = \Drupal::time()->getRequestTime();
+    $time = [
+      'created_time' => $requestTime,
+    ];
+    \Drupal::database()->insert('jek_12', $time);
   }
 
   /**
