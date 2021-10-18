@@ -8,6 +8,11 @@
 function jek_12_schema() {
   $schema['jek_12'] = [
     'fields'=> [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
       'fid' => [
         'type' => 'int',
         'length' => 255,
@@ -34,7 +39,7 @@ function jek_12_schema() {
       ],
     ],
     'primary key' => [
-      'fid',
+      'id',
     ],
   ];
   return $schema;

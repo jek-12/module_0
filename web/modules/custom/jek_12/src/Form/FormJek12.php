@@ -12,12 +12,18 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class FormJek12 extends FormBase {
 
   /**
+   * @var \Drupal\Core\Database\Connection|object|null
+   */
+  public $database;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container): FormJek12 {
-    $service = parent::create($container);
-    $service->messenger = $container->get('messenger');
-    return $service;
+    $services = parent::create($container);
+    $services->messenger = $container->get('messenger');
+    $services->database = $container->get('database');
+    return $services;
   }
 
   /**
@@ -84,7 +90,7 @@ class FormJek12 extends FormBase {
   /**
    * Return form with validation status (drupal message).
    */
-  public function ajaxValidate(array &$form): array {
+  public function ajaxValidate(array $form): array {
     return $form;
   }
 
@@ -158,10 +164,10 @@ class FormJek12 extends FormBase {
         switch ($validatefunc) {
           case 'ajax':
             if (preg_match('/[a-zA-Z._+-]+@[a-z]+.[a-z]{2,5}$/', $form_state->getValue('cats_mail'))) {
-              \Drupal::messenger()->addMessage('Valid mail', 'status');
+              $this->messenger()->addMessage('Valid mail', 'status');
             }
             else {
-              \Drupal::messenger()->addMessage('Invalid mail', 'error');
+              $this->messenger()->addMessage('Invalid mail', 'error');
             }
             break;
 
@@ -180,10 +186,10 @@ class FormJek12 extends FormBase {
         switch ($validatefunc) {
           case 'ajax':
             if ($charNameQuantity < 2 || $charNameQuantity > 32) {
-              \Drupal::messenger()->addMessage('Invalid cat`s name', 'error');
+              $this->messenger()->addMessage('Invalid cat`s name', 'error');
             }
             else {
-              \Drupal::messenger()->addMessage('Valid cat`s name', 'status');
+              $this->messenger()->addMessage('Valid cat`s name', 'status');
             }
             break;
 
@@ -211,15 +217,28 @@ class FormJek12 extends FormBase {
   }
 
   /**
+   * Push existing date to database.
+   */
+  protected function pushDate(array $form, FormStateInterface $form_state) {
+    $requestTime = \Drupal::time()->getRequestTime();
+    $image = $form_state->getValue('cats_img')[0];
+    $data = [
+      'fid' => $image,
+      'cats_name' => $form_state->getValue('cats_name'),
+      'cats_mail' => $form_state->getValue('cats_mail'),
+      'created_time' => $requestTime,
+    ];
+    $this->database->insert('jek_12')->fields($data)->execute();
+    $baseFields = $this->database->select('jek_12', 'base')->fields('base')->execute()->fetchAll();//controller
+    $this->messenger()->addMessage(\Drupal::service('date.formatter')->format($requestTime));
+  }
+
+  /**
    * {@inheritDoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state): void {
-    \Drupal::messenger()->addMessage('Valid submit');
-    $requestTime = \Drupal::time()->getRequestTime();
-    $time = [
-      'created_time' => $requestTime,
-    ];
-    \Drupal::database()->insert('jek_12', $time);
+    $this->messenger()->addMessage('Valid submit');
+    $this->pushDate($form, $form_state);
   }
 
   /**
