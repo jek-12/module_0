@@ -4,11 +4,16 @@ namespace Drupal\jek_12\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\jek_12\Form\FormJek12;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * An example controller.
  */
 class SayHiController extends ControllerBase {
+  /**
+   * @var \Drupal\Core\Database\Connection|object|null
+   */
+  protected $database;
 
   /**
    * Returns a render-able array *.
@@ -20,6 +25,17 @@ class SayHiController extends ControllerBase {
   }
 
   /**
+   *
+   */
+  public static function create(ContainerInterface $container): SayHiController {
+    $service = parent::create($container);
+    $service->database = $container->get('database');
+    return $service;
+  }
+
+
+
+  /**
    * Attached css libraries.
    */
 
@@ -28,10 +44,12 @@ class SayHiController extends ControllerBase {
    */
   public function cats(): array {
     $form_func = self::formRender();
+
     return [
       '#theme' => 'test',
       '#hi_text' => t('“Hello! You can add here a photo of your cat.”'),
       '#form' => $form_func,
+
       '#attached' => [
         'library' => [
           'jek_12/custom_libs',

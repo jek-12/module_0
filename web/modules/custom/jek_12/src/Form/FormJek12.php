@@ -5,6 +5,7 @@ namespace Drupal\jek_12\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Form\FormBuilderInterface;
 
 /**
  * Custom class Form_jek_12 extend FormBase.
@@ -14,7 +15,7 @@ class FormJek12 extends FormBase {
   /**
    * @var \Drupal\Core\Database\Connection|object|null
    */
-  public $database;
+  protected $database;
 
   /**
    * {@inheritdoc}
@@ -90,7 +91,7 @@ class FormJek12 extends FormBase {
   /**
    * Return form with validation status (drupal message).
    */
-  public function ajaxValidate(array $form): array {
+  public function ajaxValidate(array $form, FormStateInterface $form_state): array {
     return $form;
   }
 
@@ -132,6 +133,11 @@ class FormJek12 extends FormBase {
    */
   public function ajaxValidateCatName(array $form, FormStateInterface $form_state): array {
     $this->customValidate($form, $form_state, 'cats_name', 'ajax');
+    $form_state = new FormState();
+    $values['cats_name'] = '';
+    $values['cats_mail'] = '';
+    $form_state->setValues($values);
+    \Drupal::formBuilder()->submitForm('FormJek12', $form_state);
     return $form;
   }
 
@@ -208,6 +214,7 @@ class FormJek12 extends FormBase {
     return $form;
   }
 
+
   /**
    * {@inheritDoc}
    */
@@ -229,8 +236,8 @@ class FormJek12 extends FormBase {
       'created_time' => $requestTime,
     ];
     $this->database->insert('jek_12')->fields($data)->execute();
-    $baseFields = $this->database->select('jek_12', 'base')->fields('base')->execute()->fetchAll();//controller
-    $this->messenger()->addMessage(\Drupal::service('date.formatter')->format($requestTime));
+//    $form_state->setRebuild(true);
+    // $this->messenger()->addMessage(\Drupal::service('date.formatter')->format($requestTime));
   }
 
   /**
@@ -239,6 +246,7 @@ class FormJek12 extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state): void {
     $this->messenger()->addMessage('Valid submit');
     $this->pushDate($form, $form_state);
+//    $form_state->setRebuild(true);
   }
 
   /**

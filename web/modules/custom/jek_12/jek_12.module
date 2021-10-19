@@ -11,7 +11,7 @@
       'test' => [
         'variables' => [
           'hi_text' => NULL,
-          'form' => NULL,
+          'form' => [],
         ],
       ],
     ];
