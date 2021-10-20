@@ -7,7 +7,7 @@
             let submit = document.querySelector('[id^="edit-submit"]');
             name.selectionStart = name.value.length;
             mail.selectionStart = mail.value.length;
-            // $(submit).mousedown(function () {
+            // $(submit).mouseleave(function () {
             //     console.log(name.value);
             //     name.value = '';
             //     console.log(name.value);

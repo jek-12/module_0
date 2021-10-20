@@ -12,6 +12,7 @@
         'variables' => [
           'hi_text' => NULL,
           'form' => [],
+//          'rowsArr' => [],
         ],
       ],
     ];

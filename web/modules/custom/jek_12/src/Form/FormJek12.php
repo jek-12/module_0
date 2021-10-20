@@ -5,7 +5,6 @@ namespace Drupal\jek_12\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Form\FormBuilderInterface;
 
 /**
  * Custom class Form_jek_12 extend FormBase.
@@ -81,7 +80,6 @@ class FormJek12 extends FormBase {
       '#value' => $this->t('Add cat'),
       '#ajax' => [
         'callback' => '::ajaxValidate',
-        'event' => 'click',
         'wrapper' => 'formWrapper',
       ],
     ];
@@ -133,11 +131,6 @@ class FormJek12 extends FormBase {
    */
   public function ajaxValidateCatName(array $form, FormStateInterface $form_state): array {
     $this->customValidate($form, $form_state, 'cats_name', 'ajax');
-    $form_state = new FormState();
-    $values['cats_name'] = '';
-    $values['cats_mail'] = '';
-    $form_state->setValues($values);
-    \Drupal::formBuilder()->submitForm('FormJek12', $form_state);
     return $form;
   }
 
@@ -235,9 +228,8 @@ class FormJek12 extends FormBase {
       'cats_mail' => $form_state->getValue('cats_mail'),
       'created_time' => $requestTime,
     ];
-    $this->database->insert('jek_12')->fields($data)->execute();
-//    $form_state->setRebuild(true);
-    // $this->messenger()->addMessage(\Drupal::service('date.formatter')->format($requestTime));
+    $abama = $this->database->insert('jek_12')->fields($data)->execute();
+     $this->messenger()->addMessage(\Drupal::service('date.formatter')->format($requestTime));
   }
 
   /**
