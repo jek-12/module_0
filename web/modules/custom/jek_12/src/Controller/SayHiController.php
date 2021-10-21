@@ -47,26 +47,37 @@ class SayHiController extends ControllerBase {
       ->orderBy('id','DESC')
       ->execute();
 
+//    $obj = $dbselect->fetchAll();
+//    $rowsQuantity = count($obj);
+//    $neededFieldsQuantity = count(get_object_vars($obj));
+//    $rowsField = get_object_vars($obj);
+//    for($i = 0; $i < $rowsQuantity; $i++) {
+//      foreach ($obj as $row) {
+//        $FieldsQuantity = count(get_object_vars($row));
+//        $id[$row->id] = $row;
+//      }
+//    }
+
 //    $rows = [];
-//
+//    $id = [];
 //    for($i = 0; $i < 10; $i++) {
 //      $id[$i+1] = $dbselect->fetchAssoc();
 //      $rows[$id[$i+1]] = $dbselect->fetchAssoc();
 //    }
-
-//    $rowQuantity = count($obj);
-//    $rowsArr = [];
-//    $quantityRowsFields = [];
-//    for ($i = 0; $i < $rowQuantity; $i++) {
-//      $rowsArr[$i + 1] = get_object_vars($obj[$i]);
-//      $quantityRowsFields[$i + 1] = count(get_object_vars($obj[$i]));
-//    }
+    $obj = $dbselect->fetchAll();
+    $rowQuantity = count($obj);
+    $rowsArr = [];
+    $quantityRowsFields = [];
+    for ($i = 0; $i < $rowQuantity; $i++) {
+      $rowsArr[$i + 1] = get_object_vars($obj[$i]);
+      $quantityRowsFields[$i + 1] = count(get_object_vars($obj[$i]));
+    }
     return [
       '#theme' => 'test',
       '#hi_text' => t('“Hello! You can add here a photo of your cat.”'),
       '#form' => $form_func,
-//      '#rowsArr' => $rowsArr,
-//      '#quantityRowsFields' => $quantityRowsFields,
+      '#rowsArr' => $rowsArr,
+      '#quantityRowsFields' => $quantityRowsFields,
       '#attached' => [
         'library' => [
           'jek_12/custom_libs',
