@@ -1,8 +1,10 @@
 <p class = "hi_text"> {{ hi_text }} </p>
 {{ form }}
+
 {% for record in rowsArr %}
+  <p class = "row">{{ record }}</p>
   {% for fields in record %}
-    {{ fields }}
+    <p class = 'field'>{{ fields }}</p>
   {% endfor %}
 {% endfor %}
 

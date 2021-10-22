@@ -13,6 +13,8 @@
           'hi_text' => NULL,
           'form' => [],
           'rowsArr' => [],
+          'rowQuantity' => NULL,
+          'quantityRowsFields' => NULL,
         ],
       ],
     ];
