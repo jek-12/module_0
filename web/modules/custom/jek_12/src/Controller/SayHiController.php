@@ -49,7 +49,6 @@ class SayHiController extends ControllerBase {
 
     $obj = $dbselect->fetchAll();
     $rowQuantity = count($obj);
-    $quantityRowsFields = [];
     $rowsArr = [];
     for ($i = 0; $i < $rowQuantity; $i++) {
       $arr = get_object_vars($obj[$i]);
@@ -66,7 +65,6 @@ class SayHiController extends ControllerBase {
       '#hi_text' => t('“Hello! You can add here a photo of your cat.”'),
       '#form' => $form_func,
       '#rowQuantity' => $rowQuantity,
-      '#quantityRowsFields' => $quantityRowsFields,
       '#rowsArr' => $rowsArr,
       '#attached' => [
         'library' => [

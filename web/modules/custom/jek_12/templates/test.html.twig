@@ -2,10 +2,10 @@
 {{ form }}
 
 {% for record in rowsArr %}
-  <p class = "row">{{ record }}</p>
-  {% for fields in record %}
-    <p class = 'field'>{{ fields }}</p>
-  {% endfor %}
+{% for i in record %}
+
+    <p class="{{ cycle(['even'], loop.index) }}">{{ record[i] }}</p>
+
 {% endfor %}
 
-
+{% endfor %}
