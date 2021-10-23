@@ -4,6 +4,7 @@ namespace Drupal\jek_12\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\file\Entity\File;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -222,14 +223,17 @@ class FormJek12 extends FormBase {
   protected function pushDate(array $form, FormStateInterface $form_state) {
     $requestTime = \Drupal::time()->getRequestTime();
     $image = $form_state->getValue('cats_img')[0];
+    $file = File::load($image);
+    $file->setPermanent();
+    $file->save();
     $data = [
       'fid' => $image,
       'cats_name' => $form_state->getValue('cats_name'),
       'cats_mail' => $form_state->getValue('cats_mail'),
       'created_time' => $requestTime,
     ];
-    $abama = $this->database->insert('jek_12')->fields($data)->execute();
-     $this->messenger()->addMessage(\Drupal::service('date.formatter')->format($requestTime));
+    $this->database->insert('jek_12')->fields($data)->execute();
+    $this->messenger()->addMessage(\Drupal::service('date.formatter')->format($requestTime));
   }
 
   /**

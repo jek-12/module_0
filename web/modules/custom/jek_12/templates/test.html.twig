@@ -1,10 +1,16 @@
 <p class = "hi_text"> {{ hi_text }} </p>
 {{ form }}
+{% set arr = [] %}
+  {% for lol in rowsArr|keys %}
+    {% set th = loop.index %}
+    {% set arr = arr|merge([{ lol }]) %}
+  {% endfor %}
 
 {% for record in 0..rowQuantity-1 %}
   <p class="field_{{ rowQuantity - record }}">{{ rowQuantity - record }}</p>
   {% set record = loop.index-1 %}
   {% for fields in rowsArr %}
-    <p class="records_{{ rowQuantity - record }}">{{ fields[record] }}</p>
+
+    <p class="records_{{ arr[loop.index]["lol"]  }}">{{ fields[record] }}</p>
   {% endfor %}
 {% endfor %}

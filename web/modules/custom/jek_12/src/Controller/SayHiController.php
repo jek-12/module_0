@@ -48,7 +48,6 @@ class SayHiController extends ControllerBase {
       ->orderBy('id','DESC')
       ->execute();
 
-
     $obj = $dbselect->fetchAll();
     $rowQuantity = count($obj);
     $rowsArr = [];
@@ -57,13 +56,23 @@ class SayHiController extends ControllerBase {
       $keys = array_keys($arr);
       $quantityRowsFields = count(get_object_vars($obj[$i]));
       for($b = 0; $b < $quantityRowsFields; $b++) {
-        $rec = $b;
-        $rowsArr[$keys[$rec]][] = $arr[$keys[$rec]];
+        $rowsArr[$keys[$b]][] = $arr[$keys[$b]];
       }
     }
+    if(array_key_exists('fid', $rowsArr)) {
+      foreach ($rowsArr['fid'] as &$fid) {
+        if(File::load($fid) !== null) {
+          $fid = [
+            '#theme' => 'image_style',
+            '#style_name' => 'wide',
+            '#uri' => File::load($fid)->getFileUri(),
+          ];
+        }
+      }
+    }
+
 //    unset($rowsArr['created_time']);
 //    $rowsArr = array_values($rowsArr);
-
     return [
       '#theme' => 'test',
       '#hi_text' => t('“Hello! You can add here a photo of your cat.”'),
