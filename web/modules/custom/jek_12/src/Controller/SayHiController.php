@@ -4,6 +4,7 @@ namespace Drupal\jek_12\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\jek_12\Form\FormJek12;
+use Drupal\file\Entity\File;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -43,9 +44,10 @@ class SayHiController extends ControllerBase {
   public function cats(): array {
     $form_func = self::formRender();
     $dbselect = $this->database->select('jek_12', 'myr')
-      ->fields('myr', ['id', 'cats_name', 'cats_mail', 'fid', 'created_time'])
+      ->fields('myr', ['fid', 'cats_name', 'cats_mail', 'created_time', 'id'])
       ->orderBy('id','DESC')
       ->execute();
+
 
     $obj = $dbselect->fetchAll();
     $rowQuantity = count($obj);
@@ -55,10 +57,12 @@ class SayHiController extends ControllerBase {
       $keys = array_keys($arr);
       $quantityRowsFields = count(get_object_vars($obj[$i]));
       for($b = 0; $b < $quantityRowsFields; $b++) {
-        $rec = $quantityRowsFields - 1 - $b;
+        $rec = $b;
         $rowsArr[$keys[$rec]][] = $arr[$keys[$rec]];
       }
     }
+//    unset($rowsArr['created_time']);
+//    $rowsArr = array_values($rowsArr);
 
     return [
       '#theme' => 'test',
