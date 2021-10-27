@@ -5,6 +5,10 @@ namespace Drupal\jek_12\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\file\Entity\File;
+use Drupal\Core\Cache\Cache;
+use Drupal\Core\Url;
+use Drupal\Core\Ajax\RedirectCommand;
+use Drupal\Core\Ajax\AjaxResponse;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -31,11 +35,6 @@ class FormJek12 extends FormBase {
    * {@inheritDoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state): array {
-    $validatorCatImg = [
-      'file_validate_extensions' => ['jpeg jpg png'],
-      'file_validate_size' => [2097152],
-    ];
-
     $form['#prefix'] = '<div id="formWrapper">';
     $form['#suffix'] = '</div>';
     $form['cats_img'] = [
@@ -44,7 +43,14 @@ class FormJek12 extends FormBase {
       '#description' => $this->t('Only type of jpeg, jpg, png'),
       '#upload_location' => 'public://image',
       '#required' => TRUE,
-      '#upload_validators' => $validatorCatImg,
+      '#upload_validators' => [
+        'file_validate_extensions' => ['jpeg jpg png'],
+        'file_validate_size' => [2097152],
+      ],
+      '#ajax' => [
+        'callback' => '::ajaxModal',
+        'event' => 'click',
+      ],
     ];
     $form['cats_name'] = [
       '#type' => 'textfield',
@@ -90,8 +96,12 @@ class FormJek12 extends FormBase {
   /**
    * Return form with validation status (drupal message).
    */
-  public function ajaxValidate(array $form, FormStateInterface $form_state): array {
-    return $form;
+  public function ajaxValidate(array $form, FormStateInterface $form_state): AjaxResponse {
+    $response = new AjaxResponse();
+    $url = Url::fromRoute('jek_12.content');
+    $command = new RedirectCommand($url->toString());
+    $response->addCommand($command);
+    return $response;
   }
 
   /**
@@ -208,7 +218,6 @@ class FormJek12 extends FormBase {
     return $form;
   }
 
-
   /**
    * {@inheritDoc}
    */
@@ -234,6 +243,7 @@ class FormJek12 extends FormBase {
     ];
     $this->database->insert('jek_12')->fields($data)->execute();
     $this->messenger()->addMessage(\Drupal::service('date.formatter')->format($requestTime));
+    Cache::invalidateTags(['clear_cache']);
   }
 
   /**
@@ -242,7 +252,7 @@ class FormJek12 extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state): void {
     $this->messenger()->addMessage('Valid submit');
     $this->pushDate($form, $form_state);
-//    $form_state->setRebuild(true);
+    // $form_state->setRebuild(true);
   }
 
   /**

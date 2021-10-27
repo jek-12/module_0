@@ -45,7 +45,7 @@ class SayHiController extends ControllerBase {
     $form_func = self::formRender();
     $dbselect = $this->database->select('jek_12', 'myr')
       ->fields('myr', ['fid', 'cats_name', 'cats_mail', 'created_time', 'id'])
-      ->orderBy('id','DESC')
+      ->orderBy('id', 'DESC')
       ->execute();
 
     $obj = $dbselect->fetchAll();
@@ -55,13 +55,13 @@ class SayHiController extends ControllerBase {
       $arr = get_object_vars($obj[$i]);
       $keys = array_keys($arr);
       $quantityRowsFields = count(get_object_vars($obj[$i]));
-      for($b = 0; $b < $quantityRowsFields; $b++) {
+      for ($b = 0; $b < $quantityRowsFields; $b++) {
         $rowsArr[$keys[$b]][] = $arr[$keys[$b]];
       }
     }
-    if(array_key_exists('fid', $rowsArr)) {
+    if (array_key_exists('fid', $rowsArr)) {
       foreach ($rowsArr['fid'] as &$fid) {
-        if(File::load($fid) !== null) {
+        if (File::load($fid) !== NULL) {
           $fid = [
             '#theme' => 'image_style',
             '#style_name' => 'wide',
@@ -69,16 +69,29 @@ class SayHiController extends ControllerBase {
           ];
         }
       }
+      unset($fid);
     }
-
-//    unset($rowsArr['created_time']);
-//    $rowsArr = array_values($rowsArr);
+    if (array_key_exists('created_time', $rowsArr)) {
+      foreach ($rowsArr['created_time'] as &$created_time) {
+        if ($created_time !== NULL) {
+          $created_time = \Drupal::service('date.formatter')->format($created_time);
+        }
+      }
+      unset($created_time);
+    }
+    unset($rowsArr['id']);
+    // $rowsArr = array_values($rowsArr);
     return [
       '#theme' => 'test',
       '#hi_text' => t('“Hello! You can add here a photo of your cat.”'),
       '#form' => $form_func,
       '#rowQuantity' => $rowQuantity,
       '#rowsArr' => $rowsArr,
+      '#cache' => [
+        'tags' => [
+          'clear_cache',
+        ],
+      ],
       '#attached' => [
         'library' => [
           'jek_12/custom_libs',
