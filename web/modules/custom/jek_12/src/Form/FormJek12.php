@@ -5,12 +5,10 @@ namespace Drupal\jek_12\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\file\Entity\File;
-use Drupal\Core\Cache\Cache;
 use Drupal\Core\Url;
 use Drupal\Core\Ajax\RedirectCommand;
 use Drupal\Core\Ajax\AjaxResponse;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-
 /**
  * Custom class Form_jek_12 extend FormBase.
  */
@@ -46,10 +44,6 @@ class FormJek12 extends FormBase {
       '#upload_validators' => [
         'file_validate_extensions' => ['jpeg jpg png'],
         'file_validate_size' => [2097152],
-      ],
-      '#ajax' => [
-        'callback' => '::ajaxModal',
-        'event' => 'click',
       ],
     ];
     $form['cats_name'] = [
@@ -243,7 +237,6 @@ class FormJek12 extends FormBase {
     ];
     $this->database->insert('jek_12')->fields($data)->execute();
     $this->messenger()->addMessage(\Drupal::service('date.formatter')->format($requestTime));
-    Cache::invalidateTags(['clear_cache']);
   }
 
   /**

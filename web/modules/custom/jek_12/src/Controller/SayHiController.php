@@ -5,6 +5,7 @@ namespace Drupal\jek_12\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\jek_12\Form\FormJek12;
 use Drupal\file\Entity\File;
+use Drupal\Core\Ajax\OpenDialogCommand;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -87,11 +88,6 @@ class SayHiController extends ControllerBase {
       '#form' => $form_func,
       '#rowQuantity' => $rowQuantity,
       '#rowsArr' => $rowsArr,
-      '#cache' => [
-        'tags' => [
-          'clear_cache',
-        ],
-      ],
       '#attached' => [
         'library' => [
           'jek_12/custom_libs',
