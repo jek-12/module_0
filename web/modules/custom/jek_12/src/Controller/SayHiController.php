@@ -3,9 +3,9 @@
 namespace Drupal\jek_12\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Url;
 use Drupal\jek_12\Form\FormJek12;
 use Drupal\file\Entity\File;
-use Drupal\Core\Ajax\OpenDialogCommand;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -65,8 +65,10 @@ class SayHiController extends ControllerBase {
         if (File::load($fid) !== NULL) {
           $fid = [
             '#theme' => 'image_style',
-            '#style_name' => 'wide',
+            '#style_name' => 'medium',
+            '#alt' => 'cat',
             '#uri' => File::load($fid)->getFileUri(),
+            '#url' => File::load($fid)->createFileUrl(),
           ];
         }
       }
@@ -80,7 +82,8 @@ class SayHiController extends ControllerBase {
       }
       unset($created_time);
     }
-    unset($rowsArr['id']);
+//    unset($rowsArr['id']);
+
     // $rowsArr = array_values($rowsArr);
     return [
       '#theme' => 'test',
