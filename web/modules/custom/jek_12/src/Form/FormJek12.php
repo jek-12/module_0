@@ -9,12 +9,15 @@ use Drupal\Core\Url;
 use Drupal\Core\Ajax\RedirectCommand;
 use Drupal\Core\Ajax\AjaxResponse;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+
 /**
  * Custom class Form_jek_12 extend FormBase.
  */
 class FormJek12 extends FormBase {
 
   /**
+   * Secure database connection.
+   *
    * @var \Drupal\Core\Database\Connection|object|null
    */
   protected $database;
@@ -222,8 +225,10 @@ class FormJek12 extends FormBase {
 
   /**
    * Push existing date to database.
+   *
+   * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  protected function pushDate(array $form, FormStateInterface $form_state) {
+  protected function pushDate(array $form, FormStateInterface $form_state): void {
     $requestTime = \Drupal::time()->getRequestTime();
     $image = $form_state->getValue('cats_img')[0];
     $file = File::load($image);
@@ -241,11 +246,12 @@ class FormJek12 extends FormBase {
 
   /**
    * {@inheritDoc}
+   *
+   * @throws \Drupal\Core\Entity\EntityStorageException
    */
   public function submitForm(array &$form, FormStateInterface $form_state): void {
     $this->messenger()->addMessage('Valid submit');
     $this->pushDate($form, $form_state);
-    // $form_state->setRebuild(true);
   }
 
   /**

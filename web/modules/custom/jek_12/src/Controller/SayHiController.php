@@ -3,7 +3,6 @@
 namespace Drupal\jek_12\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\Core\Url;
 use Drupal\jek_12\Form\FormJek12;
 use Drupal\file\Entity\File;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -12,13 +11,16 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * An example controller.
  */
 class SayHiController extends ControllerBase {
+
   /**
+   * Secure database connection.
+   *
    * @var \Drupal\Core\Database\Connection|object|null
    */
   protected $database;
 
   /**
-   * Returns a render-able array *.
+   * Returns a render-able array.
    */
   protected static function formRender(): array {
     $form_class = FormJek12::class;
@@ -27,7 +29,7 @@ class SayHiController extends ControllerBase {
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   public static function create(ContainerInterface $container): SayHiController {
     $service = parent::create($container);
@@ -68,7 +70,6 @@ class SayHiController extends ControllerBase {
             '#style_name' => 'medium',
             '#alt' => 'cat',
             '#uri' => File::load($fid)->getFileUri(),
-            '#url' => File::load($fid)->createFileUrl(),
           ];
         }
       }
@@ -82,9 +83,7 @@ class SayHiController extends ControllerBase {
       }
       unset($created_time);
     }
-//    unset($rowsArr['id']);
 
-    // $rowsArr = array_values($rowsArr);
     return [
       '#theme' => 'test',
       '#hi_text' => t('“Hello! You can add here a photo of your cat.”'),
