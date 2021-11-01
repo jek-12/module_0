@@ -1,15 +1,18 @@
 <p class = "hi_text"> {{ hi_text }} </p>
 {{ form }}
 {% set arr = [] %}
-  {% for cat_keys in rowsArr|keys %}
-    {% set th = loop.index %}
-    {% set arr = arr|merge([{ cat_keys }]) %}
-  {% endfor %}
-<div class = "cats_cards">
-  {% for record in 0..rowQuantity %}
-    <div class="card_{{ rowQuantity - record }}">
-      {% for fields in rowsArr %}
-        <p class="records_{{ arr[loop.index-1]["cat_keys"]  }}">{{ fields[record] }}</p>
+{% for cat_keys in rowsArr|keys %}
+  {% set arr = arr|merge([ cat_keys ]) %}
+{% endfor %}
+<div class = "cats_cards container-fluid row">
+  {% for record in 0..rowQuantity-1 %}
+    <div class="card_{{ rowQuantity - record }} col-xxl-3">
+      {% for fields in rowsArr|without("id") %}
+        {% if arr[loop.index-1] == "fid" %}
+            <p class="records_{{ arr[loop.index-1] }}"><a href="/jek_12/cats/{{rowsArr["id"][record]}}">{{ fields[record] }}</a></p>
+          {% else %}
+            <p class="records_{{ arr[loop.index-1] }}">{{ fields[record] }}</p>
+        {% endif %}
       {% endfor %}
     </div>
   {% endfor %}
