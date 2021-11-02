@@ -6,14 +6,31 @@
 {% endfor %}
 <div class = "cats_cards container-fluid row">
   {% for record in 0..rowQuantity-1 %}
-    <div class="card_{{ rowQuantity - record }} col-xxl-3">
-      {% for fields in rowsArr|without("id") %}
-        {% if arr[loop.index-1] == "fid" %}
-            <p class="records_{{ arr[loop.index-1] }}"><a href="/jek_12/cats/{{rowsArr["id"][record]}}">{{ fields[record] }}</a></p>
+    {% if 'administrator' in user.getroles %}
+      <div class="admin col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-12">
+    {% else %}
+        <div class="user col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-12">
+    {% endif %}
+      <div class = "cat_card text-light bg-primary bg-gradient color">
+        {% for fields in rowsArr|without("id") %}
+          {% if arr[loop.index-1] == "fid" %}
+            <p class="records_{{ arr[loop.index-1] }}"><a class = "use-ajax" data-dialog-type="modal" href="/jek_12/cats/{{rowsArr["id"][record]}}">{{ fields[record] }}</a></p>
+            <div class = "info">
           {% else %}
-            <p class="records_{{ arr[loop.index-1] }}">{{ fields[record] }}</p>
-        {% endif %}
-      {% endfor %}
+            <p class="records_{{ arr[loop.index-1]}}">{{ fields[record] }}</p>
+            {% if loop.last %}
+              </div>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+        {{ delete }}
+      </div>
+      {% if 'administrator' in user.getroles %}
+        <div class = but>
+          <input type = "button" value = "Delete" class = "use-ajax delete button js-form-submit form-submit btn btn-primary" href="/jek_12/cats/delete/{{rowsArr["id"][record]}}"  data-dialog-type="modal">
+          <input type = "button" value = "Edit" class = "use-ajax edit button js-form-submit form-submit btn btn-primary" href="/jek_12/cats/edit/{{rowsArr["id"][record]}}"  data-dialog-type="modal">
+        </div>
+      {% endif %}
     </div>
   {% endfor %}
 </div>

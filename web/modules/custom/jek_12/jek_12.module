@@ -18,13 +18,12 @@
       ],
       'about' => [
         'variables' => [
-          'rowsArr' => [],
-          'rowQuantity' => NULL,
+          'picture' => [],
+          'name' => null,
+          'mail' => null,
+          'time' => null,
+          'id' => null,
         ],
       ],
     ];
   }
-//  function jek_12_preprocess_node__page(array &$variables) : void {
-//    //Module name: 'mymodule', library name: 'mymodule'.
-//    $variables['#attached']['library'][] = 'jek_12/custom_libs';
-//  }

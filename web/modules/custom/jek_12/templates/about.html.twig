@@ -1,0 +1,18 @@
+<div class="cat-full">
+  <div class="cat-picture">
+    <a href="{{ file_url(picture['#uri']) }}" target="_blank">
+      {{ picture }}
+    </a>
+  </div>
+  <div class="cat-info">
+    <div class="cat-email">
+      <p>{{ mail }}</p>
+    </div>
+    <div class="cat-name">
+      <p>{{ name }}</p>
+    </div>
+    <div class="cat-created">
+      <p>{{ time | date("d/F/Y G:i:s") }}</p>
+    </div>
+  </div>
+</div>

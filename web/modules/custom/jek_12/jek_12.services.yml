@@ -1,0 +1,5 @@
+services:
+  jek_12.twig_extension:
+    class: Drupal\jek_12\TwigExtension\Filter
+    tags:
+      - { name: twig.extension }

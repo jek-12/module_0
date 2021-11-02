@@ -5,10 +5,17 @@ jek_12.content:
     _title: ''
   requirements:
     _permission: 'access content'
-jek_12.overlay:
+jek_12.about:
   path: '/jek_12/cats/{id}'
   defaults:
-    _controller: '\Drupal\jek_12\Form\Overlay::show'
+    _controller: '\Drupal\jek_12\Controller\SayHiController::show'
     _title: ''
   requirements:
     _permission: 'access content'
+jek_12.delete:
+  path: '/jek_12/cats/delete/{id}'
+  defaults:
+    _form: '\Drupal\jek_12\Form\Delete'
+    _title: ''
+  requirements:
+    _permission: 'administer nodes'

@@ -2,8 +2,12 @@
 
 namespace Drupal\jek_12\Controller;
 
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\OpenModalDialogCommand;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\jek_12\Form\DeleteRow;
 use Drupal\jek_12\Form\FormJek12;
+use Drupal\jek_12\Form\Delete;
 use Drupal\file\Entity\File;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -26,6 +30,48 @@ class SayHiController extends ControllerBase {
     $form_class = FormJek12::class;
     $build['form'] = \Drupal::formBuilder()->getForm($form_class);
     return $build;
+  }
+  /**
+   * Show cat`s details.
+   */
+  public function show($id) {
+    $dbselect = $this->database->select('jek_12', 'base')
+      ->fields('base', [])
+      ->condition('id', $id)
+      ->execute();
+    $cat = $dbselect->fetch();
+    $cat->fid = [
+      '#theme' => 'image_style',
+      '#style_name' => 'wide',
+      '#uri' => File::load($cat->fid)->getFileUri(),
+      '#attributes' => [
+        'class' => 'da',
+        'alt' => 'cat',
+      ],
+    ];
+    $arr = [
+      '#theme' => 'about',
+      '#picture' => $cat->fid,
+      '#name' => $cat->cats_name,
+      '#mail' => $cat->cats_mail,
+      '#time' => $cat->created_time,
+      '#id' => $id,
+      '#attached' => [
+        'library' => [
+          'jek_12/custom_libs',
+        ],
+      ],
+    ];
+    $dialog_options = [
+      'width' => '400',
+      'height' => '400',
+      'dialogClass' => 'image-style-medium',
+      'modal' => 'true',
+    ];
+
+    $response = new AjaxResponse();
+    $response->addCommand(new OpenModalDialogCommand('about', $arr, $dialog_options));
+    return $response;
   }
 
   /**

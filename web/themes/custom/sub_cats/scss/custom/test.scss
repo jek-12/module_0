@@ -4,22 +4,6 @@ html body {
 #main-wrapper {
   padding-bottom: 174px;
 }
-//#page {
-//  position: relative;
-//}
-//
-//html {
-//  height: 100vh;
-//}
-//body {
-//  height: 100vh;
-//}
-//.site-footer {
-//  position: absolute;
-//  bottom: 0;
-//  left: 0;
-//  width: 100%;
-//}
 .hi_text {
   font-size: 18px;
   color: deepskyblue;
@@ -33,9 +17,55 @@ html body {
     padding-bottom: 10px;
   }
 }
+#formWrapper {
+  margin-bottom: 20px;
+}
 .form-control {
   background-color: #e5edfb;
 }
 .form-control:focus {
   background-color: #e0eaf4;
+}
+.admin {
+  height: 320px;
+  margin-bottom: 4rem;
+}
+.user {
+  height: 320px;
+  margin-bottom: 20px;
+}
+.but {
+  display: flex;
+  justify-content: space-between;
+}
+.delete, .edit {
+  width: 49%;
+}
+.but {
+  position: relative;
+  z-index: -100;
+}
+.cat_card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  border: 1px solid rgba(0,0,0,0.125);
+  border-radius: 0.25rem;
+  margin-bottom: -50px;
+}
+.info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+#edit-submit {
+  width: 100%;
+}
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
