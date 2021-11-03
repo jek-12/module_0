@@ -6,6 +6,7 @@
 {% endfor %}
 <div class = "cats_cards container-fluid row">
   {% for record in 0..rowQuantity-1 %}
+  {% if rowQuantity != 0 %}
     {% if 'administrator' in user.getroles %}
       <div class="admin col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-12">
     {% else %}
@@ -32,5 +33,6 @@
         </div>
       {% endif %}
     </div>
+        {% endif %}
   {% endfor %}
 </div>

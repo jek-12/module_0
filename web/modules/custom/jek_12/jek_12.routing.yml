@@ -26,3 +26,10 @@ jek_12.edit:
     _title: ''
   requirements:
     _permission: 'administer nodes'
+jek_12.block:
+  path: '/jek_12/table'
+  defaults:
+    _controller: '\Drupal\jek_12\Controller\AdminTableController::index'
+    _title: ''
+  requirements:
+    _permission: 'administer nodes'

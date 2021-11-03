@@ -39,7 +39,6 @@ class Edit extends FormJek12 {
     $cat = $result->fetch();
     $this->cat = $cat;
     $form = parent::buildForm($form, $form_state);
-    $form['#submit'] = ["::editSubmitForm"];
     $form['cats_name']['#default_value'] = $cat->cats_name;
     $form['cats_mail']['#default_value'] = $cat->cats_mail;
     $form['cats_img']['#default_value'][] = $cat->fid;
@@ -74,6 +73,7 @@ class Edit extends FormJek12 {
     $url = Url::fromRoute('jek_12.content');
     $command = new RedirectCommand($url->toString());
     $response->addCommand($command);
+    $response->addCommand(new CloseModalDialogCommand());
     return $response;
   }
 

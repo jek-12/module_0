@@ -45,7 +45,7 @@ class SayHiController extends ControllerBase {
       '#style_name' => 'wide',
       '#uri' => File::load($cat->fid)->getFileUri(),
       '#attributes' => [
-        'class' => 'da',
+        'class' => 'img-about',
         'alt' => 'cat',
       ],
     ];
@@ -63,8 +63,8 @@ class SayHiController extends ControllerBase {
       ],
     ];
     $dialog_options = [
-      'width' => '400',
-      'height' => '400',
+      'width' => '800',
+      'height' => '500',
       'dialogClass' => 'image-style-medium',
       'modal' => 'true',
     ];
@@ -129,8 +129,8 @@ class SayHiController extends ControllerBase {
       }
       unset($created_time);
     }
-
-    return [
+    $a = 1;
+    $main = [
       '#theme' => 'test',
       '#hi_text' => t('“Hello! You can add here a photo of your cat.”'),
       '#form' => $form_func,
@@ -142,6 +142,8 @@ class SayHiController extends ControllerBase {
         ],
       ],
     ];
+    return $main;
+
   }
 
 }

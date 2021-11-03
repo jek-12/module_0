@@ -1,0 +1,7 @@
+hello.demo:
+  title: 'Cats list'
+  description: 'Hello page'
+  parent: system.admin_structure
+  menu_name: block
+  route_name: jek_12.block
+  weight: -1
