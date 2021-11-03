@@ -42,7 +42,7 @@ class Edit extends FormJek12 {
     $form['#submit'] = ["::editSubmitForm"];
     $form['cats_name']['#default_value'] = $cat->cats_name;
     $form['cats_mail']['#default_value'] = $cat->cats_mail;
-    $form['cats_img']['#default_value'][] = $cat->cats_img;
+    $form['cats_img']['#default_value'][] = $cat->fid;
     $form['submit']['#value'] = $this->t('Edit cat');
     return $form;
   }
