@@ -228,7 +228,7 @@ class FormJek12 extends FormBase {
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  protected function pushDate(array $form, FormStateInterface $form_state): void {
+  public function pushDate(array $form, FormStateInterface $form_state): void {
     $requestTime = \Drupal::time()->getRequestTime();
     $image = $form_state->getValue('cats_img')[0];
     $file = File::load($image);

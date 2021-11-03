@@ -27,8 +27,8 @@
       </div>
       {% if 'administrator' in user.getroles %}
         <div class = but>
-          <input type = "button" value = "Delete" class = "use-ajax delete button js-form-submit form-submit btn btn-primary" href="/jek_12/cats/delete/{{rowsArr["id"][record]}}"  data-dialog-type="modal">
-          <input type = "button" value = "Edit" class = "use-ajax edit button js-form-submit form-submit btn btn-primary" href="/jek_12/cats/edit/{{rowsArr["id"][record]}}"  data-dialog-type="modal">
+          <input type = "button" value = "Delete" class = "use-ajax delete button js-form-submit form-submit btn btn-primary" href="/jek_12/cats/{{rowsArr["id"][record]}}/delete"  data-dialog-type="modal">
+          <input type = "button" value = "Edit" class = "use-ajax edit button js-form-submit form-submit btn btn-primary" href="/jek_12/cats/{{rowsArr["id"][record]}}/edit"  data-dialog-type="modal">
         </div>
       {% endif %}
     </div>

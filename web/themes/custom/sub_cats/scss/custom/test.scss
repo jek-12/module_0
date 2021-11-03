@@ -41,10 +41,6 @@ html body {
 .delete, .edit {
   width: 49%;
 }
-.but {
-  position: relative;
-  z-index: -100;
-}
 .cat_card {
   height: 100%;
   display: flex;
@@ -53,7 +49,7 @@ html body {
   justify-content: space-around;
   border: 1px solid rgba(0,0,0,0.125);
   border-radius: 0.25rem;
-  margin-bottom: -50px;
+  margin-bottom: 7px;
 }
 .info {
   display: flex;

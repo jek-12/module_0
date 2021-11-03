@@ -13,9 +13,16 @@ jek_12.about:
   requirements:
     _permission: 'access content'
 jek_12.delete:
-  path: '/jek_12/cats/delete/{id}'
+  path: '/jek_12/cats/{id}/delete'
   defaults:
     _form: '\Drupal\jek_12\Form\Delete'
+    _title: ''
+  requirements:
+    _permission: 'administer nodes'
+jek_12.edit:
+  path: '/jek_12/cats/{id}/edit'
+  defaults:
+    _form: '\Drupal\jek_12\Form\Edit'
     _title: ''
   requirements:
     _permission: 'administer nodes'
