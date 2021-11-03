@@ -32,4 +32,4 @@ jek_12.block:
     _controller: '\Drupal\jek_12\Controller\AdminTableController::index'
     _title: ''
   requirements:
-    _permission: 'administer nodes'
+    _permission: 'access content'
