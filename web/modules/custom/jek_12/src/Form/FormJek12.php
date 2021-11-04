@@ -57,7 +57,7 @@ class FormJek12 extends FormBase {
       '#required' => TRUE,
       '#ajax' => [
         'callback' => '::ajaxValidateCatName',
-        'event' => 'keyup',
+        'event' => 'change',
         'wrapper' => 'formWrapper',
         'progress' => [
           'type' => 'none',
@@ -72,7 +72,7 @@ class FormJek12 extends FormBase {
       '#required' => TRUE,
       '#ajax' => [
         'callback' => '::ajaxValidateMail',
-        'event' => 'keyup',
+        'event' => 'change',
         'wrapper' => 'formWrapper',
         'progress' => [
           'type' => 'none',

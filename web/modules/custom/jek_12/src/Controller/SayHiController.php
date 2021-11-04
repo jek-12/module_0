@@ -129,7 +129,6 @@ class SayHiController extends ControllerBase {
       }
       unset($created_time);
     }
-    $a = 1;
     $main = [
       '#theme' => 'test',
       '#hi_text' => t('“Hello! You can add here a photo of your cat.”'),
