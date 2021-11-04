@@ -59,9 +59,8 @@ class FormJek12 extends FormBase {
         'callback' => '::ajaxValidateCatName',
         'event' => 'mouseout',
         'wrapper' => 'formWrapper',
-        'progress' => [
-          'type' => 'none',
-        ],
+        'progress' => FALSE,
+        'disable-refocus' => TRUE
       ],
     ];
     $form['cats_mail'] = [
@@ -74,9 +73,8 @@ class FormJek12 extends FormBase {
         'callback' => '::ajaxValidateMail',
         'event' => 'mouseout',
         'wrapper' => 'formWrapper',
-        'progress' => [
-          'type' => 'none',
-        ],
+        'progress' => FALSE,
+        'disable-refocus' => TRUE
       ],
     ];
     $form['submit'] = [
