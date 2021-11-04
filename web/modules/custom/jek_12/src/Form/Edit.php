@@ -10,7 +10,7 @@ use Drupal\Core\Url;
 use Drupal\file\Entity\File;
 
 /**
- * Custom form EditCatForm.
+ * Custom form Edit.
  */
 class Edit extends FormJek12 {
 
@@ -47,7 +47,7 @@ class Edit extends FormJek12 {
   }
 
   /**
-   * Submit edit version of the cat.
+   * Submit edited version of the cat.
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
@@ -68,7 +68,10 @@ class Edit extends FormJek12 {
       ->execute();
   }
 
-  public function ajaxValidate(array $form, FormStateInterface $form_state): AjaxResponse {
+  /**
+   * Redirect and update data.
+   */
+  public function ajaxValidate(): AjaxResponse {
     $response = new AjaxResponse();
     $url = Url::fromRoute('jek_12.content');
     $command = new RedirectCommand($url->toString());
@@ -76,6 +79,5 @@ class Edit extends FormJek12 {
     $response->addCommand(new CloseModalDialogCommand());
     return $response;
   }
-
 
 }

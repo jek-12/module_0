@@ -93,7 +93,7 @@ class FormJek12 extends FormBase {
   /**
    * Return form with validation status (drupal message).
    */
-  public function ajaxValidate(array $form, FormStateInterface $form_state): AjaxResponse {
+  public function ajaxValidate(): AjaxResponse {
     $response = new AjaxResponse();
     $url = Url::fromRoute('jek_12.content');
     $command = new RedirectCommand($url->toString());

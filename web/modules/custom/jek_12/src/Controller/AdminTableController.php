@@ -9,22 +9,34 @@ use Drupal\file\Entity\File;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class DisplayTableController
+ * Class DisplayTableController.
  *
  * @package Drupal\mymodule\Controller
  */
 class AdminTableController extends ControllerBase {
 
-  protected $database;
+  /**
+   * Secure db conection.
+   *
+   * @var object
+   */
+  public $database;
 
+  /**
+   * Db connection.
+   */
   public static function create(ContainerInterface $container): AdminTableController {
     $service = parent::create($container);
     $service->database = $container->get('database');
     return $service;
   }
 
-  public function index() {
-    //create table header
+  /**
+   * The main method which return table,
+   * but must table select with submit form and ajax edit, delete form.
+   */
+  public function index(): array {
+    // Create table header.
     $header_table = [
       'id' => $this->t('ID'),
       'image' => $this->t('image'),
@@ -34,7 +46,7 @@ class AdminTableController extends ControllerBase {
       'edit' => $this->t('Edit'),
     ];
 
-    // get data from database
+    // Get data from database.
     $query = $this->database->select('jek_12', 'ms')
       ->fields('ms', ['fid', 'cats_name', 'cats_mail', 'created_time', 'id'])
       ->orderBy('id', 'DESC')

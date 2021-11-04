@@ -19,6 +19,11 @@ class Delete extends ConfirmFormBase {
    */
   protected $database;
 
+  /**
+   * Id of item for delete.
+   *
+   * @var Delete
+   */
   protected $id;
 
   /**
@@ -31,21 +36,21 @@ class Delete extends ConfirmFormBase {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritdoc}
    */
   public function getQuestion() {
     return t('Really?');
   }
 
   /**
-   * @inheritDoc
+   * {@inheritdoc}
    */
   public function getCancelUrl() {
     return new Url('jek_12.content');
   }
 
   /**
-   * @inheritDoc
+   * {@inheritdoc}
    */
   public function getCancelText() {
     return t('Cancel!');
@@ -59,16 +64,16 @@ class Delete extends ConfirmFormBase {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritdoc}
    */
   public function getFormId() {
     return 'delete';
   }
 
   /**
-   * @inheritDdoc
+   * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, $id = NULL) {
+  public function buildForm(array $form, FormStateInterface $form_state, $id = NULL): array {
     $this->id = $id;
     return parent::buildForm($form, $form_state);
   }
@@ -76,7 +81,7 @@ class Delete extends ConfirmFormBase {
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
+  public function submitForm(array &$form, FormStateInterface $form_state): void {
     $this->database->delete('jek_12')
       ->condition('id', $this->id)
       ->execute();

@@ -5,9 +5,7 @@ namespace Drupal\jek_12\Controller;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\jek_12\Form\DeleteRow;
 use Drupal\jek_12\Form\FormJek12;
-use Drupal\jek_12\Form\Delete;
 use Drupal\file\Entity\File;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -31,10 +29,11 @@ class SayHiController extends ControllerBase {
     $build['form'] = \Drupal::formBuilder()->getForm($form_class);
     return $build;
   }
+
   /**
    * Show cat`s details.
    */
-  public function show($id) {
+  public function show($id): AjaxResponse {
     $dbselect = $this->database->select('jek_12', 'base')
       ->fields('base', [])
       ->condition('id', $id)
