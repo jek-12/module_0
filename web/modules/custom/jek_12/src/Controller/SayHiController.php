@@ -55,11 +55,6 @@ class SayHiController extends ControllerBase {
       '#mail' => $cat->cats_mail,
       '#time' => $cat->created_time,
       '#id' => $id,
-      '#attached' => [
-        'library' => [
-          'jek_12/custom_libs',
-        ],
-      ],
     ];
     $dialog_options = [
       'width' => '800',
